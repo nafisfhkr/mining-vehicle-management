@@ -6,9 +6,13 @@
             </h2>
             @if(auth()->user()->role == 'admin')
             <div class="mt-4 md:mt-0 flex space-x-3">
-                <a href="{{ route('bookings.export') }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
+                <a href="{{ route('bookings.export') }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     Export Excel
+                </a>
+                <a href="{{ route('bookings.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Buat Pesanan
                 </a>
             </div>
             @endif
@@ -148,25 +152,29 @@
                                                 {{ $labels[$booking->status] }}
                                             </span>
                                         </td>
+                                        
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             @if(auth()->user()->role == 'approver')
                                                 @if(
                                                     (auth()->id() == $booking->approver_1_id && $booking->status == 'pending_lvl_1') ||
                                                     (auth()->id() == $booking->approver_2_id && $booking->status == 'pending_lvl_2')
                                                 )
-                                                    <div class="flex space-x-2">
-                                                        <form action="{{ route('bookings.approve', $booking->id) }}" method="POST">
+                                                    <div class="flex flex-col gap-3"> <form action="{{ route('bookings.approve', $booking->id) }}" method="POST" class="w-full">
                                                             @csrf
-                                                            <button class="bg-emerald-500 hover:bg-emerald-600 text-white p-1.5 rounded shadow transition" title="Setuju">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                            <button class="w-full inline-flex justify-center items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-black font-bold uppercase tracking-wider rounded shadow transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                                Setuju
                                                             </button>
                                                         </form>
-                                                        <form action="{{ route('bookings.reject', $booking->id) }}" method="POST">
+                                                        
+                                                        <form action="{{ route('bookings.reject', $booking->id) }}" method="POST" class="w-full">
                                                             @csrf
-                                                            <button class="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded shadow transition" title="Tolak">
-                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                            <button class="w-full inline-flex justify-center items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider rounded shadow transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                                Tolak
                                                             </button>
                                                         </form>
+
                                                     </div>
                                                 @else
                                                     <span class="text-gray-300">
@@ -202,8 +210,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('vehicleChart').getContext('2d');
-            
-            
             const labels = {!! json_encode($chartLabels ?? []) !!};
             const data = {!! json_encode($chartData ?? []) !!};
 
@@ -215,11 +221,11 @@
                         label: 'Frekuensi',
                         data: data,
                         backgroundColor: [
-                            '#4f46e5', // Indigo 600
-                            '#f59e0b', // Amber 500
-                            '#10b981', // Emerald 500
-                            '#6366f1', // Indigo 500
-                            '#ef4444'  // Red 500
+                            '#4f46e5', 
+                            '#f59e0b', 
+                            '#10b981',
+                            '#6366f1', 
+                            '#ef4444'  
                         ],
                         borderWidth: 0,
                         hoverOffset: 4

@@ -40,40 +40,20 @@
                         <div class="mb-8">
                             <h4 class="text-gray-600 text-sm uppercase font-bold mb-4 border-b pb-2">Detail Peminjaman</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                
                                 <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="vehicle_id">
-                                    Pilih Kendaraan
-                                </label>
-                                <div class="relative">
-                                    <select name="vehicle_id" id="vehicle_id" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150 ease-in-out">
-                                        @foreach($vehicles as $vehicle)
-                                            <option value="{{ $vehicle->id }}">
-                                                {{ $vehicle->name }} ({{ $vehicle->license_plate }}) - Posisi: {{ $vehicle->location }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2" for="vehicle_id">
+                                        Pilih Kendaraan
+                                    </label>
+                                    <div>
+                                        <select name="vehicle_id" id="vehicle_id" class="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150 ease-in-out shadow-sm">
+                                            @foreach($vehicles as $vehicle)
+                                                <option value="{{ $vehicle->id }}">
+                                                    {{ $vehicle->name }} ({{ $vehicle->license_plate }}) - Posisi: {{ $vehicle->location }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1 italic">Pastikan lokasi kendaraan sesuai dengan kebutuhan.</p>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2" for="driver_id">
-                                    Pilih Driver
-                                </label>
-                                <div class="relative">
-                                    <select name="driver_id" id="driver_id" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150 ease-in-out">
-                                        @foreach($drivers as $driver)
-                                            <option value="{{ $driver->id }}">{{ $driver->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                    </div>
-                                </div>
-                            </div>
                                     <p class="text-xs text-gray-500 mt-1 italic">Pastikan lokasi kendaraan sesuai dengan kebutuhan.</p>
                                 </div>
                                 
@@ -81,15 +61,12 @@
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="driver_id">
                                         Pilih Driver
                                     </label>
-                                    <div class="relative">
-                                        <select name="driver_id" id="driver_id" class="block appearance-none w-full bg-gray-50 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition duration-150 ease-in-out">
+                                    <div>
+                                        <select name="driver_id" id="driver_id" class="block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-150 ease-in-out shadow-sm">
                                             @foreach($drivers as $driver)
                                                 <option value="{{ $driver->id }}">{{ $driver->name }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -99,13 +76,13 @@
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="start_date">
                                         Tanggal Mulai
                                     </label>
-                                    <input type="date" name="start_date" id="start_date" class="appearance-none block w-full bg-gray-50 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
+                                    <input type="date" name="start_date" id="start_date" class="block w-full bg-gray-50 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 shadow-sm">
                                 </div>
                                 <div>
                                     <label class="block text-gray-700 text-sm font-bold mb-2" for="end_date">
                                         Tanggal Selesai
                                     </label>
-                                    <input type="date" name="end_date" id="end_date" class="appearance-none block w-full bg-gray-50 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
+                                    <input type="date" name="end_date" id="end_date" class="block w-full bg-gray-50 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 shadow-sm">
                                 </div>
                             </div>
                         </div>
@@ -124,32 +101,26 @@
                                     <label class="block text-indigo-900 text-sm font-bold mb-2">
                                         Penyetuju Level 1 (Atasan Langsung)
                                     </label>
-                                    <div class="relative">
-                                        <select name="approver_1_id" class="block appearance-none w-full bg-white border border-indigo-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 shadow-sm">
+                                    <div>
+                                        <select name="approver_1_id" class="block w-full bg-white border border-indigo-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-sm">
                                             <option value="">-- Pilih Approver --</option>
                                             @foreach($approvers as $approver)
                                                 <option value="{{ $approver->id }}">{{ $approver->name }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-indigo-500">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                                        </div>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-indigo-900 text-sm font-bold mb-2">
                                         Penyetuju Level 2 (Manajer/Pimpinan)
                                     </label>
-                                    <div class="relative">
-                                        <select name="approver_2_id" class="block appearance-none w-full bg-white border border-indigo-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 shadow-sm">
+                                    <div>
+                                        <select name="approver_2_id" class="block w-full bg-white border border-indigo-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 shadow-sm">
                                             <option value="">-- Pilih Approver --</option>
                                             @foreach($approvers as $approver)
                                                 <option value="{{ $approver->id }}">{{ $approver->name }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-indigo-500">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

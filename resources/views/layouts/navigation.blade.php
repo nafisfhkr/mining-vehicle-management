@@ -78,7 +78,7 @@
             </x-responsive-nav-link>
             @if(auth()->user()->role == 'admin')
             <x-responsive-nav-link :href="route('bookings.create')" :active="request()->routeIs('bookings.create')" class="text-gray-700 hover:bg-indigo-50 hover:text-indigo-700">
-                {{ __('Buat Pesanan') }}
+                {{ __('Buat Booking') }}
             </x-responsive-nav-link>
             @endif
         </div>

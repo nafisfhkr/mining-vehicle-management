@@ -1,59 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Mining Vehicle Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk memonitoring dan menjadwalkan pemakaian kendaraan tambang. Aplikasi ini mencakup fitur pemesanan kendaraan, persetujuan berjenjang (Approval Layering), grafik monitoring real-time, dan export laporan.
 
-## About Laravel
+Dibuat sebagai bagian dari Technical Test Fullstack Developer (Intern).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠 Teknologi yang Digunakan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **PHP:** 8.2
+* **Framework:** Laravel 12
+* **Database:** MySQL / MariaDB
+* **Frontend:** Blade Templates + Tailwind CSS (Custom Modern UI)
+* **Library Tambahan:**
+    * `Chart.js` (Untuk grafik monitoring)
+    * Native PHP CSV Stream (Untuk export Excel tanpa bloatware)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Fitur Unggulan (Plus Points)
 
-## Learning Laravel
+1.  **Persetujuan Berjenjang (Multi-level Approval):** Sistem memastikan setiap pesanan disetujui oleh Atasan Langsung (Level 1) dan Manajer (Level 2) sebelum status menjadi Final.
+2.  **Validasi Lokasi Kendaraan:** Dropdown pemilihan kendaraan menampilkan lokasi fisik kendaraan (Kantor Pusat/Tambang A/dll) untuk mencegah kesalahan penugasan.
+3.  **Real-time Dashboard:** Grafik statistik pemakaian kendaraan yang dinamis berdasarkan data aktual.
+4.  **Activity Logging:** Setiap aksi (Create, Approve, Reject) tercatat dalam Log Aktivitas di database.
+5.  **Export Excel/CSV:** Fitur unduh laporan pemakaian kendaraan.
+6.  **UI/UX Modern:** Antarmuka yang bersih, responsif, dan kontras tinggi (High Contrast) untuk kemudahan penggunaan.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 📋 Akun Pengguna (Credentials)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Berikut adalah akun yang disiapkan melalui Database Seeder untuk pengujian:
 
-## Laravel Sponsors
+| Role | Nama User | Email | Password |
+| :--- | :--- | :--- | :--- |
+| **Admin** | Admin Tambang | `admin@mining.com` | `password` |
+| **Approver (Lvl 1)** | Pak Budi (Kepala) | `budi@mining.com` | `password` |
+| **Approver (Lvl 2)** | Pak Joko (Manajer) | `joko@mining.com` | `password` |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+> **Catatan:** Password untuk semua akun default adalah `password`.
 
-### Premium Partners
+## ⚙️ Cara Instalasi (Local)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ikuti langkah berikut untuk menjalankan aplikasi di komputer lokal:
 
-## Contributing
+1.  **Clone Repository**
+    ```bash
+    git clone [https://github.com/nafisfhkr/mining-vehicle-management]
+    cd nama-repo
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2.  **Install Dependency**
+    ```bash
+    composer install
+    npm install && npm run build
+    ```
 
-## Code of Conduct
+3.  **Konfigurasi Environment**
+    * Copy file `.env.example` menjadi `.env`.
+    * Sesuaikan konfigurasi database (DB_DATABASE, DB_USERNAME, dll).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4.  **Generate Key & Migrasi Database**
+    Langkah ini penting untuk membuat tabel dan mengisi data dummy (Seeder).
+    ```bash
+    php artisan key:generate
+    php artisan migrate:fresh --seed
+    ```
 
-## Security Vulnerabilities
+5.  **Jalankan Aplikasi**
+    ```bash
+    php artisan serve
+    ```
+    Buka browser dan akses: `http://127.0.0.1:8000`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📖 Panduan Penggunaan Singkat
 
-## License
+1.  **Login sebagai Admin:** Buat pesanan baru melalui menu "Buat Pesanan". Pilih kendaraan, driver, dan tentukan 2 orang penyetuju yang berbeda.
+2.  **Login sebagai Approver 1 (Pak Budi):** Di Dashboard, klik tombol **"Setuju"** pada pesanan yang masuk. Status berubah menjadi *Menunggu Level 2*.
+3.  **Login sebagai Approver 2 (Pak Joko):** Klik tombol **"Setuju"**. Status berubah menjadi *Disetujui*.
+4.  **Monitoring:** Lihat grafik pemakaian di Dashboard yang otomatis terupdate.
+5.  **Laporan:** Klik tombol "Export Excel" untuk mengunduh data.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📊 Diagrams (Physical Data Model & Activity Diagram)
+
+### 1. Physical Data Model (PDM)
+
+### 2. Activity Diagram - Alur Pemesanan
+
+---
+**Author:** M Nafis Fakhrudin
