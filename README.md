@@ -79,7 +79,7 @@ Ikuti langkah berikut untuk menjalankan aplikasi di komputer lokal:
 ## 📊 Diagrams (Physical Data Model & Activity Diagram)
 
 ### 1. Physical Data Model (PDM)
-
+![Physical Data Model](docs/pdm.png)
 ### 2. Activity Diagram - Alur Pemesanan
 
 ---
