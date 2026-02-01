@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-   
-    protected $guarded = []; 
+    protected $guarded = [];
 
+  
     public function vehicle() { return $this->belongsTo(Vehicle::class); }
     public function driver() { return $this->belongsTo(Driver::class); }
     public function creator() { return $this->belongsTo(User::class, 'user_id'); }

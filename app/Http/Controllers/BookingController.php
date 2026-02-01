@@ -17,14 +17,12 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         
-        
+      
         if ($user->role == 'admin') {
-            
             $bookings = Booking::with(['vehicle', 'driver', 'approver1', 'approver2'])
                         ->latest()
                         ->get();
         } else {
-            
             $bookings = Booking::with(['vehicle', 'driver', 'creator'])
                 ->where(function($q) use ($user) {
                     $q->where('approver_1_id', $user->id)
@@ -37,7 +35,20 @@ class BookingController extends Controller
                 ->get();
         }
 
-        return view('dashboard', compact('bookings'));
+        
+        $vehicleUsage = Booking::select('vehicle_id')
+            ->selectRaw('count(*) as total')
+            ->groupBy('vehicle_id')
+            ->with('vehicle') 
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->vehicle->name => $item->total];
+            });
+
+        $chartLabels = $vehicleUsage->keys();
+        $chartData = $vehicleUsage->values();
+
+        return view('dashboard', compact('bookings', 'chartLabels', 'chartData'));
     }
 
     
@@ -74,7 +85,6 @@ class BookingController extends Controller
             'status' => 'pending_lvl_1', // Status Awal
         ]);
 
-        // Catat Log (Poin Plus)
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Create Booking',
@@ -84,17 +94,14 @@ class BookingController extends Controller
         return redirect()->route('dashboard')->with('success', 'Pesanan berhasil dibuat, menunggu persetujuan Level 1.');
     }
 
-    // Proses Penyetujuan (Approval Logic)
     public function approve(Booking $booking)
     {
         $user = Auth::user();
 
-        // Cek Level 1
         if ($user->id == $booking->approver_1_id && $booking->status == 'pending_lvl_1') {
             $booking->update(['status' => 'pending_lvl_2']);
             $message = 'Disetujui Level 1. Menunggu Level 2.';
         } 
-        // Cek Level 2
         elseif ($user->id == $booking->approver_2_id && $booking->status == 'pending_lvl_2') {
             $booking->update(['status' => 'approved']);
             $message = 'Disetujui Level 2. Booking Final.';
@@ -102,7 +109,6 @@ class BookingController extends Controller
             return back()->with('error', 'Anda tidak memiliki hak akses untuk tahap ini.');
         }
 
-        // Catat Log
         ActivityLog::create([
             'user_id' => $user->id,
             'action' => 'Approve Booking',
@@ -112,10 +118,8 @@ class BookingController extends Controller
         return back()->with('success', $message);
     }
 
-    // Proses Penolakan
     public function reject(Booking $booking)
     {
-        // Siapapun approver-nya (1 atau 2) bisa menolak langsung
         if (Auth::id() == $booking->approver_1_id || Auth::id() == $booking->approver_2_id) {
             $booking->update(['status' => 'rejected']);
             
@@ -129,5 +133,49 @@ class BookingController extends Controller
         }
         
         return back()->with('error', 'Unauthorized');
+    }
+
+    public function exportExcel()
+    {
+        $fileName = 'laporan_pemesanan_kendaraan.csv';
+        $bookings = Booking::with(['vehicle', 'driver', 'approver1', 'approver2'])->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        // UPDATE HEADER KOLOM
+        $columns = ['ID', 'Kendaraan', 'Lokasi', 'Plat Nomor', 'Driver', 'Tanggal Mulai', 'Tanggal Selesai', 'Status', 'Penyetuju 1', 'Penyetuju 2'];
+
+        $callback = function() use($bookings, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($bookings as $booking) {
+                fputcsv($file, [
+                    $booking->id,
+                    $booking->vehicle->name ?? '-',
+                    
+                    // UPDATE DATA LOKASI
+                    $booking->vehicle->location ?? '-', 
+                    
+                    $booking->vehicle->license_plate ?? '-',
+                    $booking->driver->name ?? '-',
+                    $booking->start_date,
+                    $booking->end_date,
+                    $booking->status,
+                    $booking->approver1->name ?? '-',
+                    $booking->approver2->name ?? '-',
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
