@@ -81,6 +81,6 @@ Ikuti langkah berikut untuk menjalankan aplikasi di komputer lokal:
 ### 1. Physical Data Model (PDM)
 ![Physical Data Model](resources/docs/PDM.png)
 ### 2. Activity Diagram - Alur Pemesanan
-
+![Activity Diagram](resources/docs/Diagram_Activity.svg)
 ---
 **Author:** M Nafis Fakhrudin
